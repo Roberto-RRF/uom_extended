@@ -19,8 +19,8 @@ class ProductProduct(models.Model):
             elif record.product_cosal == 'rollo':
                 res = self.env['stock.lot'].search([('product_id','=',record.id)])
                 record.millares_rollos_a_la_mano = len(res)
-            
-            record.millares_rollos_a_la_mano = ""
+            else:
+                record.millares_rollos_a_la_mano = ""
 
     @api.depends('free_qty')
     def _compute_millares_rollos_disponible(self):
