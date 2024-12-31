@@ -22,14 +22,14 @@ class ProductProduct(models.Model):
                     record.millares_rollos_a_la_mano = len(res)
                 else:
                     record.millares_rollos_a_la_mano = None
-            except:
+            except ValueError:
                 record.millares_rollos_a_la_mano = None
 
     @api.depends('free_qty')
     def _compute_millares_rollos_disponible(self):
         for record in self:
             try: 
-                if record.product_cosal == 'hoja':
+                if record.product_cosal == 'hoja' and record.secondary_uom_ids:
                     for uom in record.secondary_uom_ids:
                         if uom:
                             record.millares_rollos_disponible = record.free_qty / uom.factor_inv
@@ -41,6 +41,6 @@ class ProductProduct(models.Model):
                     record.millares_rollos_disponible = len(res)
                 else:
                     record.millares_rollos_disponible = None
-            except:
-                record.millares_rollos_disponible = None
+            except ValueError:
+                record.millares_rollos_disponible = 0.0
         
